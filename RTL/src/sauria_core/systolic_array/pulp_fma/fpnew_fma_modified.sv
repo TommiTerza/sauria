@@ -69,8 +69,8 @@ module fpnew_fma_modified #(
 	// ++++++++++++++++++
 	// Start New inputs
 	// ++++++++++++++++++
-  input logic                     msel_i,           // Multiplexor selection after multiplication (for Zero Gating)
-  input logic                     pipeline_en_i     // Enable for pipeline stalls
+  input logic                     msel_i,            // Multiplexor selection after multiplication (for Zero Gating)
+  input logic                     pipeline_en_i,     // Enable for pipeline stalls
   input logic [MULT_RES_MASK_W-1:0]   i_mult_res_mask, //Added to avoid Verilator PINMISSING warning. If using FP format, consider checking these signals
   input logic [MULT_APPR_MASK_W-1:0]  i_mult_appr_mask //Added to avoid Verilator PINMISSING warning. If using FP format, consider checking these signals
 	// +++++++++++++++++

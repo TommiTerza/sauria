@@ -63,3 +63,4 @@ assign o_signal = reg_q[STAGES];
 
 
 endmodule
+

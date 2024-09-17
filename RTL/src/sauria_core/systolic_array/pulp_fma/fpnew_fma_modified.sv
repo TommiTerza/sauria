@@ -13,7 +13,8 @@
 
 `include "common_cells/registers.svh"
 
-module fpnew_fma #(
+//Modified name to avoid conflicts with x-heep module having same name (fpnew_fma)
+module fpnew_fma_modified #(
   parameter fpnew_pkg::fp_format_e   FpFormat    = fpnew_pkg::fp_format_e'(0),
   parameter int unsigned             NumPipeRegs = 0,
   parameter fpnew_pkg::pipe_config_t PipeConfig  = fpnew_pkg::BEFORE,
@@ -31,6 +32,8 @@ module fpnew_fma #(
   parameter                         AA_APPROX = 0,                       
   parameter                         ZERO_GATING_MULT = 0,
   parameter                         INTERMEDIATE_PIPELINE_STAGE = 0,
+  parameter                         MULT_RES_MASK_W = 12, //Added to avoid Verilator PINMISSING warning. If using FP format, consider checking these signals
+  parameter                         MULT_APPR_MASK_W = 8, //Added to avoid Verilator PINMISSING warning. If using FP format, consider checking these signals
 	// +++++++++++++++++
 	// End New params
 	// +++++++++++++++++
@@ -68,6 +71,8 @@ module fpnew_fma #(
 	// ++++++++++++++++++
   input logic                     msel_i,           // Multiplexor selection after multiplication (for Zero Gating)
   input logic                     pipeline_en_i     // Enable for pipeline stalls
+  input logic [MULT_RES_MASK_W-1:0]   i_mult_res_mask, //Added to avoid Verilator PINMISSING warning. If using FP format, consider checking these signals
+  input logic [MULT_APPR_MASK_W-1:0]  i_mult_appr_mask //Added to avoid Verilator PINMISSING warning. If using FP format, consider checking these signals
 	// +++++++++++++++++
 	// End New inputs
 	// +++++++++++++++++
@@ -405,13 +410,17 @@ module fpnew_fma #(
           .SIGNED(1'b0),
           .STAGES(0),
           .IA_W(PRECISION_BITS),
-          .IB_W(PRECISION_BITS)
+          .IB_W(PRECISION_BITS),
+          .MULT_RES_MASK_W(MULT_RES_MASK_W), //Added to avoid Verilator PINMISSING warning. If using FP format, consider checking these signals
+          .MULT_APPR_MASK_W(MULT_APPR_MASK_W) //Added to avoid Verilator PINMISSING warning. If using FP format, consider checking these signals 
       ) multiplier_i
           (.i_clk		  (clk_i),
           .i_rstn		  (rst_ni),
           .i_en_ff    (pipeline_en_i),
           .i_a		    (mantissa_a),
           .i_b		    (mantissa_b),
+	  .i_mult_res_mask   (i_mult_res_mask), //Added to avoid Verilator PINMISSING warning. If using FP format, consider checking these signals
+          .i_mult_appr_mask  (i_mult_appr_mask), //Added to avoid Verilator PINMISSING warning. If using FP format, consider checking these signals
           .o_prod		  (product));
 
   // Only create mux when needed

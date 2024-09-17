@@ -31,6 +31,8 @@ module config_regs #(
     parameter X = 8,
     parameter Y = 8,
     parameter TH_W = 2,
+    parameter MULT_RES_MASK_W = 12,
+    parameter MULT_APPR_MASK_W = 8,
     parameter ACT_IDX_W = 15,
     parameter WEI_IDX_W = 15,
     parameter OUT_IDX_W = 15,
@@ -80,6 +82,8 @@ module config_regs #(
 
     // Configuration Outputs (Systolic Array)
     output logic [TH_W-1:0]             o_thres,            // Threshold for bit negligence in zero detection
+    output logic [MULT_RES_MASK_W-1:0]  o_mult_res_mask,    // Mask to select result precision of the multiplier
+    output logic [MULT_APPR_MASK_W-1:0] o_mult_appr_mask,   // Mask to select result approximation of the multiplier
 
 	// Configuration Outputs (ACTIVATION FEEDER)
     output logic [0:Y-1]		        o_rows_active,      // Active Rows configuration
@@ -135,7 +139,7 @@ localparam IF_LSB_BITS = $clog2(IF_W/8);
 localparam SUB_ADR_W = 8;
 
 // Registers bitcount
-localparam real TOTAL_BITS_CON =         ACT_IDX_W + 2*OUT_IDX_W + TH_W + 2;
+localparam real TOTAL_BITS_CON =         ACT_IDX_W + 2*OUT_IDX_W + TH_W + MULT_RES_MASK_W + MULT_APPR_MASK_W + 2;
 localparam real TOTAL_BITS_ACT =         Y + DILP_W + 10*ACT_IDX_W + Y*PARAMS_W;
 localparam real TOTAL_BITS_WEI =         X + 6*WEI_IDX_W + 1;
 localparam real TOTAL_BITS_OUT =         1 + PARAMS_W + 9*OUT_IDX_W;
@@ -749,7 +753,13 @@ always_comb begin
         end else if (b<ACT_IDX_W + 2*OUT_IDX_W + TH_W) begin
             o_thres[b-(ACT_IDX_W + 2*OUT_IDX_W)] =      reg_con_mux[b/IF_W][b%IF_W];
 
-        end else if (b<ACT_IDX_W + 2*OUT_IDX_W + TH_W + 1) begin
+        end else if (b<ACT_IDX_W + 2*OUT_IDX_W + TH_W + MULT_RES_MASK_W) begin
+            o_mult_res_mask[b-(ACT_IDX_W + 2*OUT_IDX_W + TH_W)] =                         reg_con_mux[b/IF_W][b%IF_W];
+
+        end else if (b<ACT_IDX_W + 2*OUT_IDX_W + TH_W + MULT_RES_MASK_W + MULT_APPR_MASK_W) begin
+            o_mult_appr_mask[b-(ACT_IDX_W + 2*OUT_IDX_W + TH_W + MULT_RES_MASK_W)] =      reg_con_mux[b/IF_W][b%IF_W];        
+            
+        end else if (b<ACT_IDX_W + 2*OUT_IDX_W + TH_W + MULT_RES_MASK_W + MULT_APPR_MASK_W + 1) begin
             o_sram_deepsleep =                          reg_con_mux[b/IF_W][b%IF_W];
 
         end else begin

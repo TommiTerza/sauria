@@ -190,6 +190,10 @@ logic [0:sauria_pkg::X-1]				            sa_cswitch_arr;
 logic					                            sa_cscan_en;
 logic [sauria_pkg::TH_W-1:0]                        sa_thres;
 
+logic [sauria_pkg::MULT_RES_MASK_W-1:0]             sa_mult_res_mask;
+logic [sauria_pkg::MULT_APPR_MASK_W-1:0]            sa_mult_appr_mask;
+
+
 // Towards all (soft_reset)
 logic soft_reset;
 
@@ -207,6 +211,8 @@ config_regs #(
         .WEI_IDX_W  (WEI_IDX_W),
         .OUT_IDX_W  (OUT_IDX_W),
         .TH_W       (sauria_pkg::TH_W),
+        .MULT_RES_MASK_W       (sauria_pkg::MULT_RES_MASK_W),
+        .MULT_APPR_MASK_W       (sauria_pkg::MULT_APPR_MASK_W),
         .PARAMS_W   (sauria_pkg::PARAMS_W),
         .DILP_W     (sauria_pkg::DILP_W)
     ) config_regs_i
@@ -239,6 +245,8 @@ config_regs #(
         .o_act_reps	        (mc_act_reps),
         .o_wei_reps	        (mc_wei_reps),
         .o_thres            (sa_thres),
+        .o_mult_res_mask    (sa_mult_res_mask),
+        .o_mult_appr_mask   (sa_mult_appr_mask), 
 
         .o_rows_active      (af_rows_active),
         .o_xlim	            (af_xlim),
@@ -501,7 +509,9 @@ sa_array #(
         .IA_W                           (sauria_pkg::IA_W),
         .IB_W                           (sauria_pkg::IB_W),
         .OC_W                           (sauria_pkg::OC_W),
-        .TH_W                           (sauria_pkg::TH_W)
+        .TH_W                           (sauria_pkg::TH_W),
+        .MULT_RES_MASK_W                (sauria_pkg::MULT_RES_MASK_W),
+        .MULT_APPR_MASK_W               (sauria_pkg::MULT_APPR_MASK_W)
     ) sa_array_i
        (.i_clk          (i_clk),
         .i_rstn         (i_rstn),
@@ -514,6 +524,8 @@ sa_array #(
         .i_cswitch_arr  (sa_cswitch_arr),
         .i_cscan_en     (sa_cscan_en),
         .i_thres	    (sa_thres),
+        .i_mult_res_mask   (sa_mult_res_mask),
+        .i_mult_appr_mask  (sa_mult_appr_mask),
 
         .o_c_arr	    (ob_c_arr));
 

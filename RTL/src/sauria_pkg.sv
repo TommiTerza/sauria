@@ -52,12 +52,14 @@ package sauria_pkg;
     parameter ADRC_W = $clog2(SRAMC_DEPTH);     // SRAM C address width
 
     // Systolic Array Configuration
-    parameter X = 16;                           // X-size of the systolic array
+    parameter X = 8;                           // X-size of the systolic array
     parameter Y = 8;                            // Y-size of the systolic array
-    parameter IA_W = 16;                        // Activation operand bit width
-    parameter IB_W = 16;                        // Weight operand bit width
-    parameter OC_W = 16;                        // Output (psum) operand bit width
+    parameter IA_W = 8;                        // Activation operand bit width
+    parameter IB_W = 8;                        // Weight operand bit width
+    parameter OC_W = 32;                        // Output (psum) operand bit width
     parameter TH_W = 2;                         // Negligence threshold bit width
+    parameter MULT_RES_MASK_W = 12;             // Bit width of mask to select result precision of the approximate multiplier
+    parameter MULT_APPR_MASK_W = 8;             // Bit width of mask to select result approximation of the approximate multiplier
     parameter PARAMS_W = 8;                     // Parametric bit width (controls width of different signals)
 
     parameter SRAMC_N = int'(SRAMC_W/OC_W);     // SRAM C - number of elements in the bus
@@ -71,8 +73,8 @@ package sauria_pkg;
     parameter EXTRA_CSREG = 1;                  // Extra Pipeline register in cswitch signal
     
     `ifndef APPROXIMATE
-        parameter ARITHMETIC = 1;               // Arithmetic representation (0=INT; 1=FP)
-        parameter MUL_TYPE = 0;                 // Type of Multiplier
+        parameter ARITHMETIC = 0;               // Arithmetic representation (0=INT; 1=FP)
+        parameter MUL_TYPE = 10;                // Type of Multiplier
         parameter M_APPROX = 0;                 // Primary Mult. approximation parameter
         parameter MM_APPROX = 0;                // Secondary Mult. approximation parameter
         parameter ADD_TYPE = 0;                 // Type of Adder

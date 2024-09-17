@@ -39,6 +39,8 @@ module sa_array #(
     parameter IB_W = 16,
     parameter OC_W = 48,
     parameter TH_W = 2,
+    parameter MULT_RES_MASK_W = 12,
+    parameter MULT_APPR_MASK_W = 8,
 	parameter STAGES_MUL = 2,
     parameter INTERMEDIATE_PIPELINE_STAGE = 1,
     parameter ZERO_GATING_MULT = 1,
@@ -63,6 +65,8 @@ module sa_array #(
     input logic	[0:X-1]				    i_cswitch_arr,      // Accumulator context switches
     input logic					        i_cscan_en,         // Output Scanchains Enable
     input logic [TH_W-1:0]              i_thres,            // Threshold for bit negligence in zero detection
+    input logic [MULT_RES_MASK_W-1:0]   i_mult_res_mask,     // Mask to select result precision of the multiplier
+    input logic [MULT_APPR_MASK_W-1:0]  i_mult_appr_mask,    // Mask to select result approximation of the multiplier 
 
 	// Data Outputs
 	output  logic [0:Y-1][OC_W-1:0]  	o_c_arr             // MAC outputs (preload / out chain)
@@ -129,6 +133,8 @@ genvar i,j;
                     .IB_W(IB_W),
                     .OC_W(OC_W),
                     .TH_W(TH_W),
+                    .MULT_RES_MASK_W(MULT_RES_MASK_W),
+                    .MULT_APPR_MASK_W(MULT_APPR_MASK_W),
                     .STAGES_MUL(STAGES_MUL),
                     .INTERMEDIATE_PIPELINE_STAGE(INTERMEDIATE_PIPELINE_STAGE),
                     .ZERO_GATING_MULT(ZERO_GATING_MULT),
@@ -144,6 +150,8 @@ genvar i,j;
                     .i_c		    (mat_C[j][i+1]),        // C input comes from the right
 
                     .i_thres        (i_thres),
+                    .i_mult_res_mask    (i_mult_res_mask),
+                    .i_mult_appr_mask   (i_mult_appr_mask), 
 
                     .i_reg_clear    (i_reg_clear),
                     .i_cell_en		(1'b1),                 // [UNUSED]

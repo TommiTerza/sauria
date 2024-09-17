@@ -33,6 +33,8 @@ module multiplier_generic #(
     parameter MM_APPROX = 0,
     parameter IA_W = 16,
     parameter IB_W = 16,
+    parameter MULT_RES_MASK_W = 12,
+    parameter MULT_APPR_MASK_W = 8,
     localparam MUL_W = IA_W+IB_W
 )(
     // Clk, RST
@@ -43,6 +45,10 @@ module multiplier_generic #(
 	// Data Inputs
     input  logic [IA_W-1:0]   	i_a,
 	input  logic [IB_W-1:0]		i_b,
+
+    //Approximate Baugh-Wooley Multiplier masks
+    input logic [MULT_RES_MASK_W-1:0]   i_mult_res_mask,
+    input logic [MULT_APPR_MASK_W-1:0]  i_mult_appr_mask,
 		
 	// Data Outputs 
 	output logic [MUL_W-1:0]  	o_prod
@@ -272,6 +278,23 @@ generate
                 .i_a		(i_a),
                 .i_b		(i_b),
                 .o_prod		(o_prod));
+
+    // *************************************************************
+    // MULT TYPE 10 => APPROX BAUGH-WOOLEY MULTIPLIER 8x8
+    // *************************************************************
+
+    end else if (MUL_TYPE == 10) begin 
+
+         // BAUGH-WOOLEY MULTIPLIER INSTANTIATION
+        mul_8x8_signed_bw multiplier_i
+                (.i_clk		(i_clk),
+                .i_rstn		(i_rstn),
+                .i_en_ff    (i_en_ff),
+                .a		    (i_a),
+                .b		    (i_b),
+                .res_mask   (i_mult_res_mask),
+                .appr_mask  (i_mult_appr_mask),
+                .res		(o_prod));              
 
     end
 

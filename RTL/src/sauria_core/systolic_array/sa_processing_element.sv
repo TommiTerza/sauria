@@ -37,6 +37,8 @@ module sa_processing_element #(
     parameter IB_W = 16,
     parameter OC_W = 48,
     parameter TH_W = 2,
+    parameter MULT_RES_MASK_W = 12,
+    parameter MULT_APPR_MASK_W = 8, 
 	parameter STAGES_MUL = 2,
     parameter INTERMEDIATE_PIPELINE_STAGE = 1,
     parameter ZERO_GATING_MULT = 1,
@@ -62,6 +64,8 @@ module sa_processing_element #(
     input logic					i_cscan_en,     // Output Scanchain Enable
 
     input logic [TH_W-1:0]      i_thres,        // Threshold for bit negligence in zero detection
+    input logic [MULT_RES_MASK_W-1:0]   i_mult_res_mask,     // Mask to select result precision of the multiplier
+    input logic [MULT_APPR_MASK_W-1:0]  i_mult_appr_mask,    // Mask to select result approximation of the multiplier 
 	
 	// Control Outputs
 	output  logic               o_cswitch, 	// Activation output
@@ -135,13 +139,17 @@ generate
                 .SIGNED(1'b1),
                 .STAGES(STAGES_MUL),
                 .IA_W(IA_W),
-                .IB_W(IB_W)
+                .IB_W(IB_W),
+                .MULT_RES_MASK_W(MULT_RES_MASK_W),
+                .MULT_APPR_MASK_W(MULT_APPR_MASK_W)
             ) multiplier_i
                 (.i_clk		(i_clk),
                 .i_rstn		(i_rstn && (!i_reg_clear)),
                 .i_en_ff    (pipeline_ff_en),
                 .i_a		(a_zd_q),
                 .i_b		(b_zd_q),
+                .i_mult_res_mask    (i_mult_res_mask),
+                .i_mult_appr_mask   (i_mult_appr_mask),
                 .o_prod		(mul_d));
             
         // ADDER
@@ -172,7 +180,9 @@ generate
             .STAGES(STAGES_MUL),
             .INTERMEDIATE_PIPELINE_STAGE(INTERMEDIATE_PIPELINE_STAGE),
             .ZERO_GATING_MULT(ZERO_GATING_MULT),
-            .FP_W(IA_W)
+            .FP_W(IA_W),
+            .MULT_RES_MASK_W(MULT_RES_MASK_W), //Added to avoid Verilator PINMISSING warning. If using FP format, consider checking these signals
+            .MULT_APPR_MASK_W(MULT_APPR_MASK_W) //Added to avoid Verilator PINMISSING warning. If using FP format, consider checking these signals
         ) fma_i
             (.i_clk		        (i_clk),
             .i_rstn		        (i_rstn && (!i_reg_clear)),
@@ -181,6 +191,8 @@ generate
             .i_c                (mac_q_zd),
             .i_msel             (mul_mux_sel),
             .i_pipeline_en      (pipeline_ff_en),
+            .i_mult_res_mask   (i_mult_res_mask), //Added to avoid Verilator PINMISSING warning. If using FP format, consider checking these signals
+            .i_mult_appr_mask  (i_mult_appr_mask), //Added to avoid Verilator PINMISSING warning. If using FP format, consider checking these signals
             .o_c		        (mac_d));
 
     end

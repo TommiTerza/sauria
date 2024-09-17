@@ -18,12 +18,12 @@
 // Jordi Fornt <jfornt@bsc.es>
 
 package sauria_addr_pkg;
-
+/*
     // Configuration AXI Address Space
     parameter CONTROLLER_OFFSET = 32'h4410_0000;
     parameter SAURIA_OFFSET     = 32'h4420_0000;
     parameter DMA_OFFSET        = 32'h4430_0000;
-
+*/
     // SAURIA Internal Address Space
     parameter CFG_REGS_OFFSET   = 32'h0000_0000;
     parameter CFG_CON_OFFSET    = 32'h0000_0200;
@@ -33,7 +33,7 @@ package sauria_addr_pkg;
     parameter SRAMA_OFFSET      = 32'h0001_0000;
     parameter SRAMB_OFFSET      = 32'h0002_0000;
     parameter SRAMC_OFFSET      = 32'h0003_0000;
-
+/*
     // DMA Internal Address Space
     parameter SAURIA_DMA_OFFSET         = 32'hD000_0000;
     parameter SAURIA_DMA_ADDR_MASK      = 32'hF000_0000;
@@ -42,7 +42,7 @@ package sauria_addr_pkg;
     parameter AXI_CONTROLLER_ADDR_MASK      = 32'hFFFF_FF00;
     parameter AXI_SAURIA_ADDR_MASK          = 32'hFFF0_0000;
     parameter AXI_DMA_ADDR_MASK             = 32'hFFFF_FFC0;
-
+*/
     parameter SAURIA_MEM_ADDR_MASK          = 32'h000F_0000;
     parameter SAURIA_REG_ADDR_MASK          = 32'h000F_FE00;
 

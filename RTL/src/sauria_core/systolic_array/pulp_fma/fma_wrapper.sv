@@ -35,6 +35,8 @@ module fma_wrapper #(
 	parameter STAGES = 0,
     parameter INTERMEDIATE_PIPELINE_STAGE = 1,
     parameter ZERO_GATING_MULT = 1,
+    parameter MULT_RES_MASK_W = 12, //Added to avoid Verilator PINMISSING warning. If using FP format, consider checking these signals
+    parameter MULT_APPR_MASK_W = 8, //Added to avoid Verilator PINMISSING warning. If using FP format, consider checking these signals
 	parameter FP_W = 16
 )(
     // Clk, RST
@@ -45,6 +47,9 @@ module fma_wrapper #(
     input  logic [FP_W-1:0]   	i_a,	// Activation operand
 	input  logic [FP_W-1:0]		i_b,	// Weight operand
 	input  logic [FP_W-1:0] 	i_c,	// MAC input
+
+        input logic [MULT_RES_MASK_W-1:0]   i_mult_res_mask, //Added to avoid Verilator PINMISSING warning. If using FP format, consider checking these signals
+        input logic [MULT_APPR_MASK_W-1:0]  i_mult_appr_mask, //Added to avoid Verilator PINMISSING warning. If using FP format, consider checking these signals
 	
 	// Control Inputs
 	input logic					i_msel,         // Adder Mux select signal (only if zero gating)
@@ -52,6 +57,7 @@ module fma_wrapper #(
 
 	// Data Outputs
 	output  logic [FP_W-1:0]  	o_c 	// MAC output
+
 );
 
 // ----------
@@ -83,7 +89,7 @@ assign o_c = result;
 // Module Instantiation
 // ----------------------
 
-fpnew_fma #(
+fpnew_fma_modified #(
 	.FpFormat(FpFormat),
 	.NumPipeRegs(STAGES),
 	.PipeConfig(PipeConfig),
@@ -100,7 +106,9 @@ fpnew_fma #(
 	.A_APPROX(A_APPROX),
 	.AA_APPROX(AA_APPROX),
 	.ZERO_GATING_MULT(ZERO_GATING_MULT),
-	.INTERMEDIATE_PIPELINE_STAGE(INTERMEDIATE_PIPELINE_STAGE)
+	.INTERMEDIATE_PIPELINE_STAGE(INTERMEDIATE_PIPELINE_STAGE),
+        .MULT_RES_MASK_W(MULT_RES_MASK_W), //Added to avoid Verilator PINMISSING warning. If using FP format, consider checking these signals
+        .MULT_APPR_MASK_W(MULT_APPR_MASK_W) //Added to avoid Verilator PINMISSING warning. If using FP format, consider checking these signals
 	// +++++++++++++++++
 	// End New params
 	// +++++++++++++++++
@@ -124,6 +132,9 @@ fpnew_fma #(
 	// ++++++++++++++++++
 	.msel_i 			(i_msel),			// Adder Mux Sel
 	.pipeline_en_i		(i_pipeline_en),	// Pipeline Enable
+
+        .i_mult_res_mask   (i_mult_res_mask), //Added to avoid Verilator PINMISSING warning. If using FP format, consider checking these signals
+        .i_mult_appr_mask  (i_mult_appr_mask), //Added to avoid Verilator PINMISSING warning. If using FP format, consider checking these signals
 	// +++++++++++++++++
 	// End New inputs
 	// +++++++++++++++++

@@ -145,10 +145,10 @@ localparam real TOTAL_BITS_WEI =         X + 6*WEI_IDX_W + 1;
 localparam real TOTAL_BITS_OUT =         1 + PARAMS_W + 9*OUT_IDX_W;
 
 // Register count
-localparam int TOTAL_REGS_CON =         $ceil(TOTAL_BITS_CON/IF_W);
-localparam int TOTAL_REGS_ACT =         $ceil(TOTAL_BITS_ACT/IF_W);
-localparam int TOTAL_REGS_WEI =         $ceil(TOTAL_BITS_WEI/IF_W);
-localparam int TOTAL_REGS_OUT =         $ceil(TOTAL_BITS_OUT/IF_W);
+localparam int TOTAL_REGS_CON =        int'($ceil(TOTAL_BITS_CON/IF_W));
+localparam int TOTAL_REGS_ACT =        int'($ceil(TOTAL_BITS_ACT/IF_W));
+localparam int TOTAL_REGS_WEI =        int'($ceil(TOTAL_BITS_WEI/IF_W));
+localparam int TOTAL_REGS_OUT =        int'($ceil(TOTAL_BITS_OUT/IF_W));
 
 // Offset regions
 localparam logic [3:0] CON_OFFSET = 4'b001;
@@ -376,7 +376,7 @@ always_comb begin
     addressing_idx = i_address[SUB_ADR_W-1:IF_LSB_BITS];
 
     // If not selected, writes and reads are disabled
-    if ((i_address & sauria_addr_pkg::SAURIA_MEM_ADDR_MASK)==sauria_addr_pkg::CFG_REGS_OFFSET) begin
+    if ((i_address & sauria_addr_pkg::SAURIA_MEM_ADDR_MASK)==sauria_addr_pkg::XHEEP_EXT_PERIPHERAL_OFFSET) begin
         wren = i_wren;
         rden = i_rden;
     end else begin

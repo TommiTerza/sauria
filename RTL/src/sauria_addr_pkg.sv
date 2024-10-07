@@ -33,6 +33,8 @@ package sauria_addr_pkg;
     parameter SRAMA_OFFSET      = 32'h0001_0000;
     parameter SRAMB_OFFSET      = 32'h0002_0000;
     parameter SRAMC_OFFSET      = 32'h0003_0000;
+
+   parameter XHEEP_EXT_PERIPHERAL_OFFSET = 32'h0007_0000;
 /*
     // DMA Internal Address Space
     parameter SAURIA_DMA_OFFSET         = 32'hD000_0000;
@@ -44,6 +46,6 @@ package sauria_addr_pkg;
     parameter AXI_DMA_ADDR_MASK             = 32'hFFFF_FFC0;
 */
     parameter SAURIA_MEM_ADDR_MASK          = 32'h000F_0000;
-    parameter SAURIA_REG_ADDR_MASK          = 32'h000F_FE00;
+    parameter SAURIA_REG_ADDR_MASK          = 32'h0000_FE00;
 
 endpackage

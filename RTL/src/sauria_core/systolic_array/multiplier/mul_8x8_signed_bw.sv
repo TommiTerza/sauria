@@ -13,9 +13,9 @@ module mul_8x8_signed_bw
   parameter N_BIT_APPR = 8,                             // appr_mask bit-width
   parameter N_BIT_RES = MAC_OUT_WIDTH-4,                // assume we accept signed 2x2 minimum, so we can gate 12 bits at most out of 16
   parameter N_BIT_RES_MIN = MAC_OUT_WIDTH - N_BIT_RES,  
-  parameter int n_rows [N_LEVELS-1:0] = {2,3,4,6,8},    // n_rows for each level of the reduction tree
-  parameter int col_start [N_LEVELS-2:0] = {2,3,4,6},   // column idx pointers to build the Dadda-tree structure
-  parameter int col_end [N_LEVELS-2:0] = {13,12,11,9}   // column idx pointers to build the Dadda-tree structure
+  parameter int n_rows [N_LEVELS-1:0] = '{2,3,4,6,8},    // n_rows for each level of the reduction tree
+  parameter int col_start [N_LEVELS-2:0] = '{2,3,4,6},   // column idx pointers to build the Dadda-tree structure
+  parameter int col_end [N_LEVELS-2:0] = '{13,12,11,9}   // column idx pointers to build the Dadda-tree structure
 )(
   // Added
 	input logic 				i_clk,

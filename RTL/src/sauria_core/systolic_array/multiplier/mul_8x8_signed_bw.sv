@@ -250,11 +250,11 @@ module mul_8x8_signed_bw
   // correct sign extension for reduced precision configuration
   assign res_tmp_2 [MAC_OUT_WIDTH-1 : MAC_OUT_WIDTH-N_BIT_RES] = (sign_res == 0) ? (res_mask & res_tmp_1[MAC_OUT_WIDTH-1 : MAC_OUT_WIDTH-N_BIT_RES]) :
                                                             (~(res_mask) | res_tmp_1[MAC_OUT_WIDTH-1 : MAC_OUT_WIDTH-N_BIT_RES] );
-  /* SAURIA already performs zero gating externally
+  // SAURIA already performs zero gating externally but this is necessary to avoid the accumulation of incorrect results
   // assign final result to output
   assign res = (a!='0 && b!='0) ? res_tmp_2 : '0; // always correct  0 mult  
-  */
+  
   // assign final result to output
-  assign res = res_tmp_2; // always correct  0 mult 
+  //assign res = res_tmp_2; // always correct  0 mult 
 
 endmodule

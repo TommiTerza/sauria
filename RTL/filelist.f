@@ -165,7 +165,7 @@ ${RTL_DIR}/src/sauria_core/systolic_array/multiplier/mul_2x2.sv
 ${RTL_DIR}/src/sauria_core/systolic_array/multiplier/bam_cell.sv
 ${RTL_DIR}/src/sauria_core/systolic_array/multiplier/multiplier_generic.sv
 ${RTL_DIR}/src/sauria_core/systolic_array/pulp_fma/fma_wrapper.sv
-${RTL_DIR}/src/sauria_core/systolic_array/pulp_fma/fpnew_fma.sv
+${RTL_DIR}/src/sauria_core/systolic_array/pulp_fma/fpnew_fma_modified.sv
 ${RTL_DIR}/src/sauria_core/sauria_logic.sv
 ${RTL_DIR}/src/sauria_core/sauria_core.sv
 ${RTL_DIR}/src/sauria_subsystem.sv

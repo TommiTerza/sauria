@@ -1,6 +1,5 @@
 ${PULP_DIR}/common_cells/src/ecc_pkg.sv
 ${PULP_DIR}/common_cells/src/cf_math_pkg.sv
-${PULP_DIR}/fpnew/src/fpnew_pkg.sv
 ${PULP_DIR}/common_cells/include/common_cells/assertions.svh
 ${PULP_DIR}/common_cells/include/common_cells/registers.svh
 ${PULP_DIR}/fpnew/src/fpnew_classifier.sv
@@ -163,6 +162,7 @@ ${RTL_DIR}/src/sauria_core/systolic_array/multiplier/multiplier_wallace.sv
 ${RTL_DIR}/src/sauria_core/systolic_array/multiplier/wallace_16.sv
 ${RTL_DIR}/src/sauria_core/systolic_array/multiplier/mul_2x2.sv
 ${RTL_DIR}/src/sauria_core/systolic_array/multiplier/bam_cell.sv
+${RTL_DIR}/src/sauria_core/systolic_array/multiplier/mul_8x8_signed_bw.sv
 ${RTL_DIR}/src/sauria_core/systolic_array/multiplier/multiplier_generic.sv
 ${RTL_DIR}/src/sauria_core/systolic_array/pulp_fma/fma_wrapper.sv
 ${RTL_DIR}/src/sauria_core/systolic_array/pulp_fma/fpnew_fma_modified.sv

@@ -121,7 +121,7 @@ always @(posedge clk_i) begin: ram
 
                 // Byte mask (converted from bitwise mask)
                 if (ram_wmask[8*b]) begin
-                    mem[ram_addr+b] <= ram_din[8*b +: 8];
+                    mem[ram_addr+b] = ram_din[8*b +: 8];
                 end
             end
 
@@ -129,7 +129,7 @@ always @(posedge clk_i) begin: ram
         end else begin
             // Update all bytes
             for (integer t=0; t < BUS_BYTES; t += 1) begin
-                ram_dout[8*t +: 8] <= mem[ram_addr+t];
+                ram_dout[8*t +: 8] = mem[ram_addr+t];
             end
         end
     end

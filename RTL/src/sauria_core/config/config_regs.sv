@@ -376,7 +376,7 @@ always_comb begin
     addressing_idx = i_address[SUB_ADR_W-1:IF_LSB_BITS];
 
     // If not selected, writes and reads are disabled
-    if ((i_address & sauria_addr_pkg::SAURIA_MEM_ADDR_MASK)==sauria_addr_pkg::XHEEP_EXT_PERIPHERAL_OFFSET) begin
+    if ((i_address & sauria_addr_pkg::SAURIA_MEM_ADDR_MASK)==sauria_addr_pkg::CFG_REGS_OFFSET) begin
         wren = i_wren;
         rden = i_rden;
     end else begin

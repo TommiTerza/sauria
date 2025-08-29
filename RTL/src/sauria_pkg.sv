@@ -47,7 +47,7 @@ package sauria_pkg;
     parameter ADRB_W = $clog2(SRAMB_DEPTH);     // SRAM B address width
 
     parameter SRAMC_W       = 128;              // SRAM C data width
-    parameter SRAMC_DEPTH   = 2048;             // SRAM C depth
+    parameter SRAMC_DEPTH   = 4096;             // SRAM C depth
     parameter RF_C          = 0;                // Set to 1 to partition SRAMC into several small Register Files
     parameter ADRC_W = $clog2(SRAMC_DEPTH);     // SRAM C address width
 
